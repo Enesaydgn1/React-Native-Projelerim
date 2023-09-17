@@ -9,10 +9,18 @@ import {
   Platform, // Platform modülünü içe aktarın
 } from 'react-native';
 import PurpleTick from '../components/PurpleTick';
-import {LinearGradient as ExpoLinearGradient} from 'expo-linear-gradient';
-import LinearGradient from 'react-native-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
+import Mutfak from '../assets/images/svgComponent/Mutfak';
+import Kariyer from '../assets/images/svgComponent/Kariyer';
+import Kodlama from '../assets/images/svgComponent/Kodlama';
+import Sanat from '../assets/images/svgComponent/Sanat';
+import Tasarim from '../assets/images/svgComponent/Tasarim';
+import Oyun from '../assets/images/svgComponent/Oyun';
+import Pazarlama from '../assets/images/svgComponent/Pazarlama';
+import Muzik from '../assets/images/svgComponent/Muzik';
+import Spor from '../assets/images/svgComponent/Spor';
 
-function SelectionPage() {
+function SelectionPage({navigation}) {
   const [clickedButtons, setClickedButtons] = useState(Array(9).fill(false)); // Her bir buton için tıklama durumu
 
   const handleClick = buttonIndex => {
@@ -25,39 +33,39 @@ function SelectionPage() {
   // Resimlerin yollarını ve alt metinlerini bir dizi olarak sakladım ve buradan dağıttım
   const emojis = [
     {
-      image: require('../assets/images/icon/png/Emoji1.png'),
+      image: <Sanat/>,
       text: 'Sanat',
     },
     {
-      image: require('../assets/images/icon/png/Emoji2.png'),
+      image: <Kariyer />,
       text: 'Kariyer',
     },
     {
-      image: require('../assets/images/icon/png/Emoji3.png'),
+      image: <Mutfak />,
       text: 'Mutfak',
     },
     {
-      image: require('../assets/images/icon/png/Emoji4.png'),
+      image: <Kodlama />,
       text: 'Kodlama',
     },
     {
-      image: require('../assets/images/icon/png/Emoji5.png'),
+      image: <Tasarim/>,
       text: 'Tasarım',
     },
     {
-      image: require('../assets/images/icon/png/Emoji6.png'),
+      image: <Oyun/>,
       text: 'Oyun',
     },
     {
-      image: require('../assets/images/icon/png/Emoji7.png'),
+      image: <Pazarlama/>,
       text: 'Pazarlama',
     },
     {
-      image: require('../assets/images/icon/png/Emoji8.png'),
+      image: <Muzik/>,
       text: 'Müzik',
     },
     {
-      image: require('../assets/images/icon/png/Emoji9.png'),
+      image: <Spor/>,
       text: 'Spor',
     },
   ];
@@ -84,7 +92,7 @@ function SelectionPage() {
                   backgroundColor: clickedButtons[i] ? '#fff' : '#F2F2F2',
                 },
               ]}>
-              <Image source={emojis[i].image} style={styles.buttonImage} />
+              <View>{emojis[i].image}</View>
             </View>
             <PurpleTick visible={clickedButtons[i]} />
           </TouchableOpacity>
@@ -103,12 +111,8 @@ function SelectionPage() {
     return buttons;
   };
 
-  // İşletim sistemine göre doğru gradient bileşenini seçin
-  const GradientComponent =
-    Platform.OS === 'ios' ? ExpoLinearGradient : LinearGradient;
-
   return (
-    <SafeAreaView style={styles.sectionContainer}>
+    <View style={styles.sectionContainer}>
       <View style={[styles.elipseContainer]}>
         <View style={[styles.elipseTwo, styles.elipseTop]} />
         <View style={[styles.elipseOne, styles.elipseBottom]} />
@@ -120,31 +124,19 @@ function SelectionPage() {
           gerekiyor.
         </Text>
         <View style={styles.buttonsContainer}>{renderButtons()}</View>
-        {Platform.OS === 'ios' ? (
-          <TouchableOpacity style={{marginTop: 10}}>
-            <GradientComponent
-              colors={['#000000', '#545454']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.startButton}>
-              <Text style={styles.startButtonText}>
-                Öğrenme Yolculuğuna Başla!
-              </Text>
-            </GradientComponent>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity >
-            <GradientComponent
-              colors={['#000000', '#545454']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.startButton}>
-              <Text style={styles.startButtonText}>
-                Öğrenme Yolculuğuna Başla!
-              </Text>
-            </GradientComponent>
-          </TouchableOpacity>
-        )}
+
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <LinearGradient
+            colors={['#000000', '#545454']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={styles.startButton}>
+            <Text style={styles.startButtonText}>
+              Öğrenme Yolculuğuna Başla!
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
         {Platform.OS === 'ios' ? (
           <Text style={[styles.subText, {marginTop: 40}]}>
             Favori alanlarını daha sonra değiştirebilirsin.
@@ -155,7 +147,7 @@ function SelectionPage() {
           </Text>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

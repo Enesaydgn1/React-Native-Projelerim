@@ -9,13 +9,11 @@ import {
   Image,
 } from 'react-native';
 
-const handleClick = () => {
-  alert('Succes');
-};
 
-function Loading() {
+
+function Loading({ navigation }) {
   return (
-    <SafeAreaView style={styles.sectionContainer}>
+    <View style={styles.sectionContainer}>
       <View style={[styles.elipseContainer]}>
         <View style={[styles.elipseTwo, styles.elipseTop]} />
         <View style={[styles.elipseOne, styles.elipseBottom]} />
@@ -25,11 +23,11 @@ function Loading() {
         <Text style={styles.navigateSubTitle}>
           Günde 10 dakikanı ayırarak yeni şeyler öğrenmeye hazır mısın?
         </Text>
-        <TouchableOpacity style={styles.button} onPress={handleClick}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelectionPage')}>
           <Image source={require('../assets/images/icon/Next.png')} style={styles.buttonImage}/>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
