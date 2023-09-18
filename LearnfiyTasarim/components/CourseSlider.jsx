@@ -4,13 +4,17 @@ import Tasarim from '../assets/images/svgComponent/Tasarim';
 import Slider from '@react-native-community/slider';
 
 function CourseSlider() {
+  const defaultValue = 3;
   return (
     <View>
       <View style={styles.courseStoryContainer}>
         <Text style={styles.courseText}>Devam eden öğrenmeler</Text>
         <Text style={styles.allText}>Tümü</Text>
       </View>
-      <ScrollView horizontal={true} contentContainerStyle={{ paddingLeft: 30 , marginTop: 15}} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal={true}
+        contentContainerStyle={{paddingLeft: 30, marginTop: 15}}
+        showsHorizontalScrollIndicator={false}>
         <View style={styles.courseCard}>
           <View style={styles.courseCardHeader}>
             <View style={styles.courseIcon}>
@@ -21,12 +25,14 @@ function CourseSlider() {
 
           <View style={{marginTop: 5, flex: 1}}>
             <Slider
-              style={{width: '100%'}}
-              minimumValue={0}
-              maximumValue={6}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-              thumbTintColor="#FFFFFF"
+            style={{ width: '100%' }}
+            minimumValue={0}
+            maximumValue={6}
+            minimumTrackTintColor="#FFFFFF" 
+            maximumTrackTintColor="rgba(255, 255, 255, 0.5)" 
+            thumbTintColor="#FFFFFF" 
+            value={defaultValue}
+            enabled={false}
             />
             <View style={styles.contentCountContainer}>
               <Text style={styles.countText}>00 İçerik</Text>
@@ -45,13 +51,15 @@ function CourseSlider() {
           </View>
 
           <View style={{marginTop: 5, flex: 1}}>
-            <Slider
-              style={{width: '100%'}}
-              minimumValue={0}
-              maximumValue={6}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-              thumbTintColor="#FFFFFF"
+          <Slider
+            style={{ width: '100%' }}
+            minimumValue={0}
+            maximumValue={6}
+            minimumTrackTintColor="#FFFFFF" 
+            maximumTrackTintColor="rgba(255, 255, 255, 0.5)" 
+            thumbTintColor="#FFFFFF" 
+            value={defaultValue}
+            enabled={false}
             />
             <View style={styles.contentCountContainer}>
               <Text style={styles.countText}>00 İçerik</Text>

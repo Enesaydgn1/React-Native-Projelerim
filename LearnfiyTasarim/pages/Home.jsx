@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeButton from '../assets/images/svgComponent/HomeButton';
@@ -17,72 +19,133 @@ import BurgerMenu from '../assets/images/svgComponent/BurgerMenu';
 import ProfileImage from '../assets/images/svgComponent/ProfileImage';
 import FilterIcon from '../assets/images/svgComponent/Settings';
 import CourseSlider from '../components/CourseSlider';
+import PopulerCourse from '../components/PopulerCourse';
+import DetailScreen from './DetailScreen';
 
 const Tab = createBottomTabNavigator();
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <BurgerMenu style={styles.burgerMenu} />
-        </TouchableOpacity>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Learnify</Text>
-          <Text style={styles.location}>Istanbul, Türkiye</Text>
+      <ScrollView>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity>
+            <BurgerMenu style={styles.burgerMenu} />
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Learnify</Text>
+            <Text style={styles.location}>Istanbul, Türkiye</Text>
+          </View>
+          <ProfileImage style={styles.profileImage} />
         </View>
-        <ProfileImage style={styles.profileImage} />
-      </View>
-      {/* HEADER BİTİŞİ */}
+        {/* HEADER BİTİŞİ */}
 
-      {/* SEARCH KISMI */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="İçerik Ara"
-          placeholderTextColor="gray"
-        />
-        <TouchableOpacity style={styles.settingsBar}>
-          <FilterIcon />
-        </TouchableOpacity>
-      </View>
-      {/* SEARCH BİTİŞİ */}
+        {/* SEARCH KISMI */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="İçerik Ara"
+            placeholderTextColor="gray"
+          />
+          <TouchableOpacity style={styles.settingsBar}>
+            <FilterIcon />
+          </TouchableOpacity>
+        </View>
+        {/* SEARCH BİTİŞİ */}
 
-      {/* KURS GEÇMİŞİ */}
-     
-      <CourseSlider/>
+        {/* KURS GEÇMİŞİ */}
+        <CourseSlider />
+        {/* KURS GEÇMİŞİ BİTİŞ */}
 
-      {/* KURS GEÇMİŞİ BİTİŞ */}
+        {/* Popüler Kurslar */}
+        <View style={styles.populerTextContainer}>
+          <Text style={styles.populerCourseText}>Popüler öğrenmeler</Text>
+          <Text style={styles.allText}>Tümü</Text>
+        </View>
+        <PopulerCourse navigation={navigation} />
+        {/* Popüler Kurslar Bitiş*/}
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-function CustomTabBar() {
+function CustomTabBar({state, descriptors, navigation}) {
   return (
     <View style={styles.customTabBar}>
-      <TouchableOpacity style={styles.tabBarItem}>
-        <HomeButton />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.tabBarItem}>
-        <BookButton />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.tabBarItem}>
-        <StatickButton />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.tabBarItem}>
-        <ProfileButton />
-      </TouchableOpacity>
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        let buttonIcon;
+
+        if (route.name === 'HomeScreen') {
+          buttonIcon = <HomeButton  />;
+        } else if (route.name === 'Book') {
+          buttonIcon = <BookButton />;
+        } else if (route.name === 'Statick') {
+          buttonIcon = <StatickButton />;
+        } else if (route.name === 'Profile') {
+          buttonIcon = <ProfileButton />;
+        }
+
+        return (
+          <TouchableOpacity
+            key={route.key}
+            onPress={onPress}
+            style={[
+              styles.tabBarItem,
+              {
+                backgroundColor: isFocused
+                  ? 'rgba(109, 34, 228, 0.2)'
+                  : 'transparent',
+                borderRadius: 300,
+              },
+            ]}>
+            {buttonIcon}
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
 
 function Home() {
   return (
-    <Tab.Navigator tabBar={CustomTabBar} tabBarOptions={{showLabel: false}}>
+    <Tab.Navigator
+      tabBar={props => <CustomTabBar {...props} />}
+      screenOptions={{tabBarShowLabel: false}}>
       <Tab.Screen
-        name="Ana Sayfa"
+        name="HomeScreen"
         component={HomeScreen}
+        options={{headerShown: false}}
+        style={{backgroundColor: '#fff'}}
+      />
+      <Tab.Screen
+        name="Book"
+        component={DetailScreen}
+        options={{headerShown: false}}
+        style={{backgroundColor: '#fff'}}
+      />
+      <Tab.Screen
+        name="Statick"
+        component={DetailScreen}
+        options={{headerShown: false}}
+        style={{backgroundColor: '#fff'}}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={DetailScreen}
         options={{headerShown: false}}
         style={{backgroundColor: '#fff'}}
       />
@@ -94,20 +157,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: 50,
+    paddingTop: Platform.OS === 'ios' ? 0 : 25,
   },
   customTabBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     padding: 10,
-    borderTopWidth: 1,
-    borderTopColor: 'lightgray',
     backgroundColor: '#fff',
   },
   tabBarItem: {
-    flex: 1,
+    width: 50, // Genişlik
+    height: 50, // Yükseklik
+    borderRadius: 25, // Yarıçapı yarı genişlik olarak ayarlayarak tam yuvarlak yapın
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
   },
   header: {
     flexDirection: 'row',
@@ -170,7 +233,24 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 10,
   },
-
+  populerTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 38,
+    marginTop: 26,
+  },
+  populerCourseText: {
+    fontSize: 22,
+    color: '#080A24',
+    fontFamily: 'Poppins',
+    fontWeight: 'bold',
+  },
+  allText: {
+    fontSize: 14,
+    color: '#AA84E5',
+    marginRight: 20,
+    marginTop: 5,
+  },
 });
 
 export default Home;

@@ -3,13 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   TouchableOpacity,
-  Button,
-  Image,
 } from 'react-native';
-
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'; 
+import NextIcon from '../assets/images/svgComponent/NextIcon';
 
 function Loading({ navigation }) {
   return (
@@ -21,10 +18,12 @@ function Loading({ navigation }) {
       <View style={styles.bottomNavigateBar}>
         <Text style={styles.navigateText}>Hoş geldin! 🎉</Text>
         <Text style={styles.navigateSubTitle}>
-          Günde 10 dakikanı ayırarak yeni şeyler öğrenmeye hazır mısın?
+          Günde 10 dakikanı ayırarak {"\n"} yeni şeyler öğrenmeye hazır mısın?
         </Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SelectionPage')}>
-          <Image source={require('../assets/images/icon/Next.png')} style={styles.buttonImage}/>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('SelectionPage')}>
+          <NextIcon style={styles.buttonNext} />
         </TouchableOpacity>
       </View>
     </View>
@@ -35,72 +34,70 @@ const styles = StyleSheet.create({
   sectionContainer: {
     backgroundColor: '#6D22E4',
     flex: 1,
-    justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
   },
   elipseContainer: {
-    flexDirection: 'colmn',
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   elipseOne: {
-    width: '100%', 
-    height: 600,
+    width: '100%',
+    height: hp('40%'),
     backgroundColor: '#fff',
     position: 'relative',
     justifyContent: 'center',
-    margin:-300
+    margin: -hp('20%'),
   },
   elipseTwo: {
-    width: '100%', 
-    height: 410, 
+    width: '100%',
+    height: hp('60%'),
     backgroundColor: '#fff',
-    marginBottom:-30
-  
+    margin: -hp('30%'),
   },
   elipseTop: {
     opacity: 0.15,
-    borderTopRightRadius: 170, 
-    borderTopLeftRadius: 170,
-     
-   
+    borderTopRightRadius: wp('45%'),
+    borderTopLeftRadius: wp('45%'),
   },
   elipseBottom: {
     opacity: 0.18,
-    borderTopRightRadius: 200, 
-    borderTopLeftRadius: 200, 
-    alignItems:'center',
-
+    borderTopRightRadius: wp('45%'),
+    borderTopLeftRadius: wp('45%'),
+    alignItems: 'center',
+    marginBottom: -hp('10%'),
   },
   bottomNavigateBar: {
     backgroundColor: '#fff',
-    height: '45%',
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    padding: 20,
+    height: hp('45%'),
+    borderTopLeftRadius: wp('10%'),
+    borderTopRightRadius: wp('10%'),
+    padding: wp('4%'),
   },
   navigateText: {
     color: '#000',
     fontFamily: 'Poppins',
     textAlign: 'center',
-    marginTop: 20,
-    fontSize: 32,
-    fontWeight:'900'
+    marginTop: hp('3.5%'),
+    fontSize: wp('8%'),
+    fontWeight: '700',
   },
   navigateSubTitle: {
     textAlign: 'center',
-    color: '#BABABA',
+    color: 'rgba(186, 186, 186, 1)',
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
-    lineHeight: 29,
-    marginTop: 23,
+    fontFamily: 'Poppins',
+    lineHeight: hp('4%'),
+    marginTop: hp('2.5%'),
   },
   button: {
     width: '100%',
   },
-  buttonImage: {
-    marginTop:67,
-    alignSelf: 'center', // Görüntüyü yatayda ortala
+  buttonNext: {
+    marginTop: hp('6%'),
+    alignSelf: 'center',
   },
-
+  
 });
+
 export default Loading;

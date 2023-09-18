@@ -3,12 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   TouchableOpacity,
-  Image,
-  Platform, // Platform modülünü içe aktarın
+  Platform,
+  ScrollView,
 } from 'react-native';
-import PurpleTick from '../components/PurpleTick';
+import PurpleTick from '../assets/images/svgComponent/PurpleTick';
 import {LinearGradient} from 'expo-linear-gradient';
 import Mutfak from '../assets/images/svgComponent/Mutfak';
 import Kariyer from '../assets/images/svgComponent/Kariyer';
@@ -24,7 +23,7 @@ function SelectionPage({navigation}) {
   const [clickedButtons, setClickedButtons] = useState(Array(9).fill(false)); // Her bir buton için tıklama durumu
 
   const handleClick = buttonIndex => {
-    // Tıklanan butonun tıklama durumunu değiştir
+    // Tıklanan butonun tıklama durumunu değiştirdim
     const updatedClickedButtons = [...clickedButtons];
     updatedClickedButtons[buttonIndex] = !updatedClickedButtons[buttonIndex];
     setClickedButtons(updatedClickedButtons);
@@ -33,7 +32,7 @@ function SelectionPage({navigation}) {
   // Resimlerin yollarını ve alt metinlerini bir dizi olarak sakladım ve buradan dağıttım
   const emojis = [
     {
-      image: <Sanat/>,
+      image: <Sanat />,
       text: 'Sanat',
     },
     {
@@ -49,23 +48,23 @@ function SelectionPage({navigation}) {
       text: 'Kodlama',
     },
     {
-      image: <Tasarim/>,
+      image: <Tasarim />,
       text: 'Tasarım',
     },
     {
-      image: <Oyun/>,
+      image: <Oyun />,
       text: 'Oyun',
     },
     {
-      image: <Pazarlama/>,
+      image: <Pazarlama />,
       text: 'Pazarlama',
     },
     {
-      image: <Muzik/>,
+      image: <Muzik />,
       text: 'Müzik',
     },
     {
-      image: <Spor/>,
+      image: <Spor />,
       text: 'Spor',
     },
   ];
@@ -112,42 +111,44 @@ function SelectionPage({navigation}) {
   };
 
   return (
-    <View style={styles.sectionContainer}>
-      <View style={[styles.elipseContainer]}>
-        <View style={[styles.elipseTwo, styles.elipseTop]} />
-        <View style={[styles.elipseOne, styles.elipseBottom]} />
-      </View>
-      <Text style={styles.title}>Hangi alanlarda öğrenmek istersin?</Text>
-      <View style={styles.bottomNavigateBar}>
-        <Text style={styles.navigateTittle}>
-          Sana daha iyi içerikler sunmak için favori öğrenme alanlarını seçmen
-          gerekiyor.
-        </Text>
-        <View style={styles.buttonsContainer}>{renderButtons()}</View>
+    <ScrollView style={{backgroundColor:'#FFF',}}>
+      <View style={styles.sectionContainer}>
+        <View style={[styles.elipseContainer]}>
+          <View style={[styles.elipseTwo, styles.elipseTop]} />
+          <View style={[styles.elipseOne, styles.elipseBottom]} />
+        </View>
+        <Text style={styles.title}>Hangi alanlarda öğrenmek istersin?</Text>
+        <View style={styles.bottomNavigateBar}>
+          <Text style={styles.navigateTittle}>
+            Sana daha iyi içerikler sunmak için favori öğrenme alanlarını seçmen
+            gerekiyor.
+          </Text>
+          <View style={styles.buttonsContainer}>{renderButtons()}</View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <LinearGradient
-            colors={['#000000', '#545454']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            style={styles.startButton}>
-            <Text style={styles.startButtonText}>
-              Öğrenme Yolculuğuna Başla!
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <LinearGradient
+              colors={['#000000', '#545454']}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.startButton}>
+              <Text style={styles.startButtonText}>
+                Öğrenme Yolculuğuna Başla!
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          {Platform.OS === 'ios' ? (
+            <Text style={[styles.subText, {marginTop: 40}]}>
+              Favori alanlarını daha sonra değiştirebilirsin.
             </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        {Platform.OS === 'ios' ? (
-          <Text style={[styles.subText, {marginTop: 40}]}>
-            Favori alanlarını daha sonra değiştirebilirsin.
-          </Text>
-        ) : (
-          <Text style={[styles.subText]}>
-            Favori alanlarını daha sonra değiştirebilirsin.
-          </Text>
-        )}
+          ) : (
+            <Text style={[styles.subText]}>
+              Favori alanlarını daha sonra değiştirebilirsin.
+            </Text>
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
