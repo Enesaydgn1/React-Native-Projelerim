@@ -2,6 +2,4 @@
 React Native ile yazılmış mobil uygulama tasarımı
 
 
-
-Uploading Samsung Galaxy S10 (1440x3040, 560dpi) - 192.168.207.103_5555 - Genymotion 2023-09-18 18-02-38.mp4…
-
+<img width="357" alt="Capture" src="https://github.com/Enesaydgn1/React-Native-Projelerim/assets/65818129/67dfdd6d-9387-478a-a9a7-176df1fa5583">
